@@ -46,7 +46,7 @@ router.post('/close', connection, async (req, res) => {
   if(!!hasActivePass) { 
     await PassController.closePass(req.pg);
    } else {
-     return res.status(401).json({ error: 'У нас нет активного пропуска на данный момент' });
+     return res.status(401).json({ error: 'Нет активного пропуска на данный момент' });
    };
 
   res.json({ message: true})
