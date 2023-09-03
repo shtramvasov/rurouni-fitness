@@ -14,7 +14,7 @@ create table exercise (
 create table routine (
 	routine_id serial primary key not null,
 	name varchar(64) not null,
-	is_active boolean default false,
+	is_active boolean default false not null,
 	
 	constraint uq_order_name unique (name)
 );
@@ -50,6 +50,7 @@ create table exercise_session (
 	exercise_id integer not null,
 	session_id integer not null,
 	created_on_tz timestamptz not null,
+  burned_calories numeric(3) not null,
 	weight numeric(3) not null,
 	sets numeric(3) not null,
 	reps numeric(3) not null,

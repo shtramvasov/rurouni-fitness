@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../../../database');
+const { connection } = require('../../../middlewares/connection');
+const ExercisesController = require('../../../controllers/exercises/exercises.controller');
+const { assignExerciseHistory } = require('../../../helpers');
 
 router.use((req, res, next) => {
 	console.log(`[NOTICE] ==== Exercises router ====`);
@@ -8,66 +10,28 @@ router.use((req, res, next) => {
 });
 
 // Получить список упражнений
-router.get('/', async (req, res, next) => {
-	let pg = await pool.connect();
+router.get('/', connection, async (req, res) => {
+  const exercisesList = await ExercisesController.getAll(req.pg);
 
-	try {
-		const exercisesList = (await pg.query('select * from exercise')).rows;
-
-		res.json(exercisesList);
-	} catch (error) {
-		  console.log(error);
-		  next(error);
-	} finally {
-		  pg.release();
-	}
+  res.json(exercisesList);
 });
 
 // Детализация упражнения
-router.get('/:id', async (req, res, next) => {
-	let pg = await pool.connect();
+router.get('/:id', connection, async (req, res) => {
+  const exercise = await ExercisesController.getOne(req.pg, { id: req.params.id });
+  if (!exercise) return res.status(404).json({ error: 'Упражнение не найдено' });
 
-	try {
-		const exercise = (await pg.query('select * from exercise where exercise_id = $1', [req.params.id])).rows[0];
+  // Ищем историю тренировок для упражнения
+  const exercisesHistory = await ExercisesController.getExerciseHistory(req.pg, { id: req.params.id });
 
-		if (!exercise) return res.status(404).json({ error: 'Упражнение не найдено' });
+  // Присваиваем значения, если нашли историю тренировок
+  exercise.weight = null;
+  exercise.total_calories = 0;
+  exercise.history = [];
+  
+  if (exercisesHistory.length) assignExerciseHistory(exercise, exercisesHistory);
 
-		// Ищем историю тренировок для упражнения
-		const exercisesHistory = (
-			await pg.query(`
-        select * from exercise_session
-        where 
-          exercise_id = $1
-        order by created_on_tz desc`,
-        [req.params.id]
-    )).rows;
-
-		exercise.weight = null;
-		exercise.total_calories = 0;
-		exercise.history = [];
-
-		// Присваиваем значения, если нашли историю тренировок
-		if (exercisesHistory.length) {
-			for (session of exercisesHistory) {
-				exercise.history.push({
-					id: session.session_id,
-					date: session.date,
-					weight: Number(session.weight),
-				});
-
-				exercise.total_calories += Number(session.burned_calories);
-			}
-
-			exercise.weight = exercisesHistory.at(0).weight;
-		}
-
-		res.json(exercise);
-	} catch (error) {
-		  console.log(error);
-		  next(error);
-	} finally {
-		  pg.release();
-	}
+  res.json(exercise);
 });
 
 module.exports = router;
