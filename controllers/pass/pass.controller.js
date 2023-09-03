@@ -55,12 +55,9 @@ class PassController {
     }
   }
 
-  static async closePass(connection, params) {
+  static async closePass(connection) {
     try {
-      await connection.query(`
-        update pass set (end_on_tz, is_active) = (now(), false) where pass_id = $1`,
-        [ params.pass_id ]
-      );
+      await connection.query('update pass set (end_on_tz, is_active) = (now(), false) where is_active = true');
     } catch (error) {
       throw error;
     }

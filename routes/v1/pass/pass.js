@@ -38,4 +38,18 @@ router.post('/purchase', connection, async (req, res) => {
   res.json({ message: true, pass: { pass_id: pass.pass_id, is_active: pass.is_active }})
 });
 
+// Закрыть пропуск
+router.post('/close', connection, async (req, res) => {
+  // Проверяем наличие активного пропуска
+  const hasActivePass = await PassController.getOne(req.pg);
+  
+  if(!!hasActivePass) { 
+    await PassController.closePass(req.pg);
+   } else {
+     return res.status(401).json({ error: 'У нас нет активного пропуска на данный момент' });
+   };
+
+  res.json({ message: true})
+});
+
 module.exports = router;

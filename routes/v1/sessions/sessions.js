@@ -51,7 +51,7 @@ router.post('/', connection, async (req, res) => {
   const usedSessions = await SessionsController.getSessionCount(req.pg, { pass_id: passId.pass_id });
 
   // Закрываем пропуск, если израсходовали все посещения (лимит 12)
-  if (usedSessions.sessions == 12) await PassController.closePass(req.pg, { pass_id: passId.pass_id });
+  if (usedSessions.sessions == 12) await PassController.closePass(req.pg);
 
   // Записываем историю упражнений 
   if (exercises) {
