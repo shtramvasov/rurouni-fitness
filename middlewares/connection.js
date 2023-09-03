@@ -1,37 +1,31 @@
 const pool = require('../database');
 
-async function connection(req, res, next) {
-  let pg = null;
-
+const connection = (func) => async (req, res, next) => {
   try {
-    pg = await pool.connect();
-    req.pg = pg;
+    res.locals.pg = await pool.connect();
 
-    await next();
+    await func(req, res);
   } catch (error) {
       console.error(error);
       next(error);
   } finally {
-      pg && pg.release();
+    res.locals.pg && res.locals.pg.release();
   }
 }
 
-async function transaction(req, res, next) {
-  let pg = null;
-
+const transaction = (func) => async (req, res, next) => {
   try {
-    pg = await pool.connect();
-    req.pg = pg;
-    await pg.query('begin')
+    res.locals.pg = await pool.connect();
+    await res.locals.pg.query('begin')
 
-    await next();
-    await pg.query('commit');
+    await func(req, res);
+    await res.locals.pg.query('commit');
   } catch (error) {
-      await pg.query('rollback');
+      res.locals.pg && await res.locals.pg.query('rollback');
       console.error(error);
       next(error);
   } finally {
-      pg && pg.release();
+      res.locals.pg && res.locals.pg.release();
   }
 }
 
