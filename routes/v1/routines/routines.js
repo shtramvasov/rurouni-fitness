@@ -16,7 +16,7 @@ router.get('/', connection, async (req, res) => {
   res.json(routinesList);
 });
 
-// Получить список программ тренировок
+// Получить список активных программ тренировок
 router.get('/active', connection, async (req, res) => {
   const activeRoutinesList = await RoutinesController.getAllActive(req.pg);
   if (!activeRoutinesList.length) return res.status(404).json({ error: 'Активных тренировочных программ не найдено' });
