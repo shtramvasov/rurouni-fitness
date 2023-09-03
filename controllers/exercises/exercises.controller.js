@@ -34,6 +34,36 @@ class ExercisesController {
       throw error;
     }
   }
+
+  static async postExerciseHistory(connection, params) {
+    try {
+      await connection.query(`
+        insert into exercise_session
+          (exercise_id, session_id, created_on_tz, weight, sets, reps, burned_calories)
+        values ($1, $2, $3, $4, $5, $6, $7)`,
+        [ params.exercise_id, params.session_id, params.date, params.weight, params.sets, params.reps, params.burned_calories ]
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updatePersonalRecord(connection, params) {
+    try {
+      await connection.query(`
+        update exercise
+        set personal_record = 
+          case
+            when personal_record is null or $1 > personal_record then $1
+            else personal_record 
+          end
+        where exercise_id = $2`,
+        [ params.weight, params.exercise_id ]
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 module.exports = ExercisesController;

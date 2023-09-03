@@ -17,6 +17,27 @@ class PassController {
       throw error;
     }
   } 
+
+  static async getActiveId(connection) {
+    try {
+      const pass = await connection.query('select pass_id from pass where is_active = true');
+
+      return pass.rows[0]
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async closePass(connection, params) {
+    try {
+      await connection.query(`
+        update pass set (end_on_tz, is_active) = (now(), false) where pass_id = $1`,
+        [ params.pass_id ]
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 module.exports = PassController;
