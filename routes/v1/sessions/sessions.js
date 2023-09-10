@@ -19,7 +19,7 @@ router.get('/', connection (async (req, res) => {
 
 // Детализация посещения (подгрузка упражнений)
 router.get('/:id', connection (async (req, res) => {
-  const exercisesList = await SessionsController.getOne(res.locals.pg, { id: req.params.id });
+  const exercisesList = await SessionsController.getExercises(res.locals.pg, { id: req.params.id });
   if(!exercisesList.length) return res.status(404).json({ error: 'Список упражнений не найден' });
 
   res.json(exercisesList)

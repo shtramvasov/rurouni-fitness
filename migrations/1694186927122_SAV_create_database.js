@@ -6,44 +6,70 @@ module.exports.up = async (connection) => {
               name varchar(64) not null,
               muscle_group varchar(16) default null,
               units varchar(2) default 'кг',
-              calories_per_rep numeric (2) not null,
-              personal_record numeric(3) default null,
+              calories_per_rep numeric(2) not null,
               
               constraint uq_exercise_name unique (name)
             );
+
+            create table "user" (
+           	  user_id serial primary key not null,
+           	  username varchar(64) not null,
+           	  password varchar(512) not null,
+           	  created_on_tz timestamptz not null,
+           	  is_active boolean default true not null,
+           	 
+           	  constraint uq_user_username unique (username)
+           );
             
             
             create table routine (
               routine_id serial primary key not null,
-              name varchar(64) not null,
-              is_active boolean default false not null,
-              
-              constraint uq_order_name unique (name)
+              name varchar(64) not null
             );
-            create index idx_routine_is_active on routine(is_active);
             
             
             create table pass (
               pass_id serial primary key not null,
+              user_id integer not null,
               created_on_tz timestamptz default now() not null,
               end_on_tz timestamptz default null,
               amount numeric(4) default 1400 not null,
-              is_active boolean default true not null
+              is_active boolean default true not null,
+
+              constraint fk_pass_user_id foreign key (user_id) references "user"(user_id)
             );
-            create index idx_pass_is_active on pass(is_active);
-            create unique index uq_pass_is_active on pass(is_active) where is_active = true;
+            create unique index uq_pass_is_active on pass(is_active, user_id) where is_active = true;
             
             
             create table session (
               session_id serial primary key not null,
               routine_id integer not null,
+              user_id integer not null,
               pass_id integer not null,
               created_on_tz timestamptz not null,
               category numeric(1) not null default 1,
               burned_calories numeric(3) not null,
               
               constraint fk_session_routine_id foreign key (routine_id) references routine(routine_id),
+              constraint fk_session_user_id foreign key (user_id) references "user"(user_id),
               constraint fk_session_pass_id foreign key (pass_id) references pass(pass_id)
+            );
+
+            create table user_exercise (
+              ue_id serial primary key not null,
+              user_id integer not null,
+              exercise_id integer not null,
+              personal_record numeric(3) default null
+              
+            );
+            create unique index uq_user_exercise on user_exercise(user_id, exercise_id);
+
+
+            create table user_routine (
+              ur_id serial primary key not null,
+              user_id integer not null,
+              routine_id integer not null,
+              is_active boolean default false not null
             );
             
             
@@ -84,10 +110,13 @@ module.exports.up = async (connection) => {
           await connection.query(`
           drop table exercise_session;
           drop table routine_exercise;
+          drop table user_routine;
+          drop table user_exercise;
           drop table exercise;
           drop table session;
           drop table routine;
           drop table pass;
+          drop table "user";
           `);
         } catch (error) {
             throw error;

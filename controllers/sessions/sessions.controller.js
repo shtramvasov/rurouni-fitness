@@ -19,7 +19,7 @@ class SessionsController {
     }
   }
 
-  static async getOne(connection, params) {
+  static async getExercises(connection, params) {
     try {
       const exercisesList = await connection.query(`
         select * from exercise_session
