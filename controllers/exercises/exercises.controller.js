@@ -12,7 +12,14 @@ class ExercisesController {
 
   static async getOne(connection, params) {
     try {
-      const exercise = await connection.query('select * from exercise where exercise_id = $1', [params.id]);
+      const exercise = await connection.query(`
+        select 
+          e.*, ue.personal_record
+        from exercise e 
+        join user_exercise ue on e.exercise_id = ue.exercise_id
+        where ue.user_id = $1
+          and ue.exercise_id = $2`, 
+        [params.user_id, params.exercise_id]);
 
       return exercise.rows[0];     
     } catch (error) {
@@ -23,10 +30,12 @@ class ExercisesController {
   static async getExerciseHistory(connection, params) {
     try {
       const exercisesHistory = await connection.query(`
-        select * from exercise_session
+        select * from exercise_session es
+        join session s on es.session_id = s.session_id
         where exercise_id = $1
-        order by created_on_tz desc`,
-        [params.id]
+          and s.user_id = $2
+        order by es.created_on_tz desc`,
+        [params.exercise_id, params.user_id]
       );
 
       return exercisesHistory.rows;
@@ -51,14 +60,15 @@ class ExercisesController {
   static async updatePersonalRecord(connection, params) {
     try {
       await connection.query(`
-        update exercise
+        update user_exercise
         set personal_record = 
           case
             when personal_record is null or $1 > personal_record then $1
             else personal_record 
           end
-        where exercise_id = $2`,
-        [ params.weight, params.exercise_id ]
+        where user_id = $2
+        and exercise_id = $3`,
+        [ params.weight, params.user_id, params.exercise_id ]
       );
     } catch (error) {
       throw error;

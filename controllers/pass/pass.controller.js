@@ -1,6 +1,6 @@
 class PassController {
 
-  static async getAll(connection) {
+  static async getAll(connection, params) {
     try {
       const pass = await connection.query(`
         select
@@ -8,7 +8,9 @@ class PassController {
           count(*) sessions
         from pass p
         left join session s on s.pass_id = p.pass_id
-        group by p.pass_id`
+        where p.user_id = $1
+        group by p.pass_id`,
+        [params.user_id]
       );
       
       return pass.rows;
@@ -17,7 +19,7 @@ class PassController {
     }
   } 
 
-  static async getOne(connection) {
+  static async getOne(connection, params) {
     try {
       const pass = await connection.query(`
         select
@@ -26,7 +28,9 @@ class PassController {
         from pass p
         left join session s on s.pass_id = p.pass_id
         where p.is_active = true
-        group by p.pass_id`
+        and p.user_id = $1
+        group by p.pass_id`,
+        [params.user_id]
       );
       
       return pass.rows[0]
@@ -47,7 +51,10 @@ class PassController {
 
   static async purchasePass(connection, params) {
     try {
-      const pass = await connection.query('insert into pass (amount) values ($1) returning *', [ params.amount ]);
+      const pass = await connection.query(`
+        insert into pass (user_id, amount) values ($1, $2) returning *`,
+        [ params.user_id, params.amount ]
+      );
 
       return pass.rows[0]
     } catch (error) {
@@ -55,9 +62,15 @@ class PassController {
     }
   }
 
-  static async closePass(connection) {
+  static async closePass(connection, params) {
     try {
-      await connection.query('update pass set (end_on_tz, is_active) = (now(), false) where is_active = true');
+      await connection.query(`
+        update pass set 
+          (end_on_tz, is_active) = (now(), false) 
+        where is_active = true
+        and user_id = $1`,
+        [params.user_id]
+      );
     } catch (error) {
       throw error;
     }
