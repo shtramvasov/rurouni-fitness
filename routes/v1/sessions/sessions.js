@@ -12,14 +12,14 @@ router.use((req, res, next) => {
 
 // Получить список посещений
 router.get('/', connection (async (req, res) => {
-  const sessionsList = await SessionsController.getAll(res.locals.pg);
+  const sessionsList = await SessionsController.getAll(res.locals.pg, { user_id: req.user.user_id });
 
   res.json(sessionsList)
 }));
 
 // Детализация посещения (подгрузка упражнений)
 router.get('/:id', connection (async (req, res) => {
-  const exercisesList = await SessionsController.getExercises(res.locals.pg, { id: req.params.id });
+  const exercisesList = await SessionsController.getExercises(res.locals.pg, { exercise_id: req.params.id });
   if(!exercisesList.length) return res.status(404).json({ error: 'Список упражнений не найден' });
 
   res.json(exercisesList)
@@ -41,6 +41,7 @@ router.post('/', transaction (async (req, res) => {
   // Записываем посещение
   const sessionId = await SessionsController.postSession(pg, {
     routine_id,
+    user_id: req.user.user_id,
     pass_id: passId.pass_id,
     category,
     date,
@@ -52,7 +53,7 @@ router.post('/', transaction (async (req, res) => {
   const usedSessions = await SessionsController.getSessionCount(pg, { pass_id: passId.pass_id });
 
   // Закрываем пропуск, если израсходовали все посещения (лимит 12)
-  if (usedSessions.sessions == 12) await PassController.closePass(pg);
+  if (usedSessions.sessions == 12) await PassController.closePass(pg, { user_id: req.user.user_id });
 
   // Записываем историю упражнений 
   if (exercises) {
@@ -68,7 +69,11 @@ router.post('/', transaction (async (req, res) => {
       });
 
       // Обновляем личный рекорд упражнения
-      await ExercisesController.updatePersonalRecord(pg, { weight: exercise.weight, exercise_id: exercise.exercise_id });
+      await ExercisesController.updatePersonalRecord(pg, {
+				weight: exercise.weight,
+				user_id: req.user.user_id,
+				exercise_id: exercise.exercise_id,
+			});
     };
   };
   

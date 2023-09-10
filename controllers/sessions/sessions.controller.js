@@ -1,16 +1,20 @@
 class SessionsController {
 
-  static async getAll(connection) {
+  static async getAll(connection, params) {
     try {
       const sessionsList = await connection.query(`
         select 
           s.session_id,
+          s.user_id,
+          s.pass_id,
           r.name,
           s.created_on_tz,
           s.burned_calories,
           s.category
         from session s
-        join routine r on r.routine_id = s.routine_id`
+        join routine r on r.routine_id = s.routine_id
+        where s.user_id = $1`,
+        [params.user_id]
       );
 
       return sessionsList.rows;
@@ -25,7 +29,7 @@ class SessionsController {
         select * from exercise_session
         where exercise_id = $1
         order by created_on_tz desc`,
-        [params.id]
+        [params.exercise_id]
       );
 
       return exercisesList.rows;
@@ -51,9 +55,9 @@ class SessionsController {
     try {
       const session = await connection.query(`
         insert into session
-          (routine_id, pass_id, category, created_on_tz, burned_calories)
-        values ($1, $2, $3, $4, $5) returning session_id`,
-        [ params.routine_id, params.pass_id, params.category, params.date, params.burned_calories ]
+          (routine_id, user_id, pass_id, category, created_on_tz, burned_calories)
+        values ($1, $2, $3, $4, $5, $6) returning session_id`,
+        [ params.routine_id, params.user_id, params.pass_id, params.category, params.date, params.burned_calories ]
       );
       
       return session.rows[0]
