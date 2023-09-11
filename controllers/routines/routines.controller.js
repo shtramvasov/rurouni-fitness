@@ -52,6 +52,30 @@ class RoutinesController {
       throw error;
     }
   }
+
+  static async getUserRoutine(connection, params) {
+    try {
+      const routine = await connection.query(`
+        select * from user_routine where user_id = $1 and routine_id = $2`, 
+        [params.user_id, params.routine_id]);
+
+      return routine.rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async postUserRoutine(connection, params) {
+    try {
+      const routine = await connection.query(`
+        insert into user_routine (user_id, routine_id) values ($1, $2)`, 
+        [params.user_id, params.routine_id]);
+
+      return routine.rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
 };
 
 module.exports = RoutinesController;

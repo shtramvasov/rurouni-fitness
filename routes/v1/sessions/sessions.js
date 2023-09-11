@@ -4,6 +4,7 @@ const { connection, transaction } = require('../../../middlewares/connection');
 const SessionsController = require('../../../controllers/sessions/sessions.controller');
 const PassController = require('../../../controllers/pass/pass.controller');
 const ExercisesController = require('../../../controllers/exercises/exercises.controller');
+const RoutinesController = require('../../../controllers/routines/routines.controller');
 
 router.use((req, res, next) => {
 	console.log(`[NOTICE] ==== Sessions router ====`);
@@ -58,6 +59,16 @@ router.post('/', transaction (async (req, res) => {
 
   // Закрываем пропуск, если израсходовали все посещения (лимит 12)
   if (usedSessions.sessions == 12) await PassController.closePass(pg, { user_id: req.user.user_id });
+
+  // Прикрепляем программу тренировок к пользователю, если ранее не было
+  const isRoutineAttached = await RoutinesController.getUserRoutine(pg,  { 
+    user_id: req.user.user_id, 
+    routine_id: routine_id 
+  });
+
+  if(!isRoutineAttached) {
+    await RoutinesController.postUserRoutine(pg, { user_id: req.user.user_id,routine_id: routine_id  });
+  }
 
   // Записываем историю упражнений 
   if (exercises) {
