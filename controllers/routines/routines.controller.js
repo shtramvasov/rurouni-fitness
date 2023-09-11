@@ -15,9 +15,9 @@ class RoutinesController {
     )) as exercises
     from routine r
     left join routine_exercise re on re.routine_id = r.routine_id
-    join exercise e on e.exercise_id = re.exercise_id
-    join user_routine ur on ur.routine_id = r.routine_id 
-    join user_exercise ue on ue.exercise_id = e.exercise_id
+    left join exercise e on e.exercise_id = re.exercise_id
+    left join user_routine ur on ur.routine_id = r.routine_id 
+    left join user_exercise ue on ue.exercise_id = e.exercise_id
     where ur.user_id = $1 `;
   
 

@@ -16,9 +16,10 @@ class ExercisesController {
         select 
           e.*, ue.personal_record
         from exercise e 
-        join user_exercise ue on e.exercise_id = ue.exercise_id
-        where ue.user_id = $1
-          and ue.exercise_id = $2`, 
+        left join user_exercise ue 
+          on e.exercise_id = ue.exercise_id
+          and ue.user_id = $1
+        where e.exercise_id = $2`, 
         [params.user_id, params.exercise_id]);
 
       return exercise.rows[0];     
