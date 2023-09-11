@@ -23,7 +23,7 @@ router.post('/register', transaction (async (req, res) => {
   const hasRegistered = await UsersController.getOne(res.locals.pg, { username });
 
   if(hasRegistered) res.status(400).json({error: 'Такой пользователь уже существует'});
-
+  
   const passwordHash = await bcript.hash(password, 10);
 
   const user = await UsersController.postUser(res.locals.pg, { 
