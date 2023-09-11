@@ -12,6 +12,8 @@ router.use((req, res, next) => {
 router.get('/', connection (async (req, res) => {
   const passList = await PassController.getAll(res.locals.pg, { user_id: req.user.user_id });
 
+  if(!passList.length) return res.status(404).json({ error: 'Пропуска не найдены' })
+
   res.json(passList)
 }));
 
