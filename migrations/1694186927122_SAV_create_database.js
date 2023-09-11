@@ -50,19 +50,20 @@ module.exports.up = async (connection) => {
               category numeric(1) not null default 1,
               burned_calories numeric(3) not null,
               
-              constraint fk_session_routine_id foreign key (routine_id) references routine(routine_id),
-              constraint fk_session_user_id foreign key (user_id) references "user"(user_id),
-              constraint fk_session_pass_id foreign key (pass_id) references pass(pass_id)
+              constraint fk_user_exercise_user_id foreign key (user_id) references "user"(user_id),
+              constraint fk_user_exercise_uexercise_id foreign key (exercise_id) references exercise(exercise_id),
+              constraint uq_user_exercise unique (user_id, exercise_id)
             );
 
             create table user_exercise (
               ue_id serial primary key not null,
               user_id integer not null,
               exercise_id integer not null,
-              personal_record numeric(3) default null
+              personal_record numeric(3) default null,
               
+              constraint uq_user_exercise unique (user_id, exercise_id)
             );
-            create unique index uq_user_exercise on user_exercise(user_id, exercise_id);
+            
 
 
             create table user_routine (

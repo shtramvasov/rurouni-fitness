@@ -61,15 +61,19 @@ class ExercisesController {
   static async updatePersonalRecord(connection, params) {
     try {
       await connection.query(`
-        update user_exercise
-        set personal_record = 
-          case
-            when personal_record is null or $1 > personal_record then $1
-            else personal_record 
-          end
-        where user_id = $2
-        and exercise_id = $3`,
-        [ params.weight, params.user_id, params.exercise_id ]
+        insert into user_exercise
+          (user_id, exercise_id, personal_record)
+        values ($1, $2, $3)
+        on conflict on constraint uq_user_exercise do 
+        update set
+        personal_record = 
+        case
+          when excluded.personal_record is null or $3 > excluded.personal_record then $3
+          else excluded.personal_record 
+        end
+        where user_exercise.user_id = $1
+        and user_exercise.exercise_id = $2`,
+        [ params.user_id, params.exercise_id, params.weight ]
       );
     } catch (error) {
       throw error;
