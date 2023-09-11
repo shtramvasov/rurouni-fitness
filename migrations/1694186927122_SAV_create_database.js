@@ -70,7 +70,6 @@ module.exports.up = async (connection) => {
               ur_id serial primary key not null,
               user_id integer not null,
               routine_id integer not null,
-              is_active boolean default false not null,
 
               constraint fk_user_routine_user_id foreign key (user_id) references "user"(user_id),
               constraint fk_user_routine_routine_id foreign key (routine_id) references "routine"(routine_id),

@@ -27,8 +27,8 @@ module.exports.up = async (connection) => {
             insert into user_exercise values (2, 1, 2, 120);
             insert into user_exercise values (3, 1, 3, 100);
 
-            insert into user_routine values (1, 1, 1, true);
-            insert into user_routine values (2, 1, 2, false);
+            insert into user_routine values (1, 1, 1);
+            insert into user_routine values (2, 1, 2);
           `);
         } catch (error) {
             throw error;

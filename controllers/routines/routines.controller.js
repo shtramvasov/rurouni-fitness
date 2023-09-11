@@ -4,7 +4,6 @@ class RoutinesController {
     select 
       r.routine_id,
       r.name,
-      ur.is_active,
       array_agg(json_build_object(
         'exercise_id', e.exercise_id,
         'exercise_name', e.name,
@@ -18,13 +17,13 @@ class RoutinesController {
     left join exercise e on e.exercise_id = re.exercise_id
     left join user_routine ur on ur.routine_id = r.routine_id 
     left join user_exercise ue on ue.exercise_id = e.exercise_id
-    where ur.user_id = $1 `;
+    `;
   
 
-  static async getAll(connection, params) {
+  static async getAll(connection) {
     try {
-      const query = this.#routineQuery + 'group by r.routine_id, r.name, ur.is_active'
-      const routinesList = await connection.query(query, [params.user_id]);
+      const query = this.#routineQuery + 'group by r.routine_id, r.name'
+      const routinesList = await connection.query(query);
       
       return routinesList.rows;
     } catch (error) {
@@ -34,7 +33,7 @@ class RoutinesController {
 
   static async getAllActive(connection, params) {
     try {
-      const query = this.#routineQuery + 'and ur.is_active = true group by r.routine_id, r.name, ur.is_active'
+      const query = this.#routineQuery + 'where ur.user_id = $1 group by r.routine_id, r.name'
       const activeRoutinesList = await connection.query(query, [params.user_id]);
 
       return activeRoutinesList.rows;
@@ -45,8 +44,8 @@ class RoutinesController {
 
   static async getOne(connection, params) {
     try {
-      const query = this.#routineQuery + 'and r.routine_id = $2 group by r.routine_id, r.name, ur.is_active'
-      const routine = await connection.query(query, [params.user_id, params.routine_id]);
+      const query = this.#routineQuery + 'where r.routine_id = $1 group by r.routine_id, r.name'
+      const routine = await connection.query(query, [params.routine_id]);
 
       return routine.rows[0];
     } catch (error) {
