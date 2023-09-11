@@ -3,10 +3,7 @@ class UsersController {
   static async getOne(connection, params) {
     try {
       const user = await connection.query(`
-        select user_id 
-        from "user" 
-        where username = $1
-          and is_active = true`, 
+        select user_id from "user" where username = $1`, 
         [params.username]
       );
 
@@ -19,11 +16,7 @@ class UsersController {
   static async postUser(connection, params) {
     try {
       const user = await connection.query(`
-        insert into "user" (username, password, created_on_tz)
-        values ($1, $2, now()) 
-        on conflict on constraint uq_user_username do
-        update set is_active = true, password = $2, created_on_tz = now()
-        returning user_id, created_on_tz`,
+        insert into "user" (username, password, created_on_tz)values ($1, $2, now())`,
         [params.username, params.password]
       );
 
