@@ -52,6 +52,21 @@ class RoutinesController {
       throw error;
     }
   }
+  static async getRoutineByUser(connection, params) {
+    try {
+      const routine = await connection.query(`
+        select r.routine_id from "routine" r
+        join user_routine ur on ur.routine_id = r.routine_id
+        where ur.user_id = $1
+        and ur.routine_id = $2`, 
+        [params.user_id, params.routine_id]);
+
+      return routine.rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
   static async getUserRoutine(connection, params) {
     try {
@@ -65,11 +80,35 @@ class RoutinesController {
     }
   }
 
+  static async postRoutine(connection, params) {
+    try {
+      const routine = await connection.query(`
+        insert into "routine" (name) values ($1) returning *`, 
+        [params.name]);
+
+      return routine.rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async postUserRoutine(connection, params) {
     try {
       const routine = await connection.query(`
         insert into user_routine (user_id, routine_id) values ($1, $2)`, 
         [params.user_id, params.routine_id]);
+
+      return routine.rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async postRoutineExercise(connection, params) {
+    try {
+      const routine = await connection.query(`
+        insert into routine_exercise (exercise_id, routine_id) values ($1, $2)`, 
+        [params.exercise_id, params.routine_id]);
 
       return routine.rows[0];
     } catch (error) {
