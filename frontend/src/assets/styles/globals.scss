@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'Gilroy';
+	font-weight: 300;
+	src: local('Gilroy'), url('../fonts/Gilroy-Light.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Gilroy';
+	font-weight: 400;
+	src: local('Gilroy'), url('../fonts/Gilroy-Regular.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Gilroy';
+	font-weight: 500;
+	src: local('Gilroy'), url('../fonts/Gilroy-Medium.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Gilroy';
+	font-weight: 600;
+	src: local('Gilroy'), url('../fonts/Gilroy-Semibold.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Gilroy';
+	font-weight: 700;
+	src: local('Gilroy'), url('../fonts/Gilroy-Bold.woff2') format('woff2');
+}
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	display: inline;
+}
+
+html,
+body {
+	font-size: 16px;
+}
+
+body::-webkit-scrollbar {
+	width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+	@apply bg-slate-primary;
+}
+
+body::-webkit-scrollbar-thumb {
+	@apply bg-gray-dark rounded-[20px];
+}
+
+img {
+	user-select: none;
+	-webkit-user-drag: none;
+	-moz-user-select: none;
+}
+
+@layer base {
+	html {
+		font-family: 'Gilroy', sans-serif;
+		@apply bg-white-light;
+	}
+
+	h1 {
+		@apply text-5xl;
+	}
+	h2 {
+		@apply text-3xl;
+	}
+	h3 {
+		@apply text-2xl;
+	}
+
+	.active {
+		@apply text-white-primary bg-blue-dark hover:text-white-primary hover:bg-blue-dark;
+	}
+}
+
+@layer utilities {
+	.responsive {
+		@apply w-full sm:w-auto;
+	}
+}
