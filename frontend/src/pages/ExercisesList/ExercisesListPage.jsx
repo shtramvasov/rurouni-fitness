@@ -1,7 +1,10 @@
+import Layout from '@components/Layout/Layout'
 
 function ExercisesListPage() {
   return (
-    <div>ExercisesListPage</div>
+    <Layout>
+      <div>ExercisesListPage</div>
+    </Layout>
   )
 }
 

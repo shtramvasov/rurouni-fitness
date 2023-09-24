@@ -1,0 +1,19 @@
+.loader {
+	@apply w-16 h-16 animate-spin text-slate-dark;
+}
+
+.small {
+	@apply w-7 h-7;
+}
+
+.centered {
+	@apply w-full;
+}
+
+.blue {
+	@apply text-blue-dark;
+}
+
+.white {
+	@apply text-white-light;
+}

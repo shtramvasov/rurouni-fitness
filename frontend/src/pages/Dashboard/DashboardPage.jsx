@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
+import Layout from '@components/Layout/Layout'
+
 function DashboardPage() {
 
   return (
-    <>
-    <div>Dashboard</div>
-    <Link to='/login'>Логин</Link>
-  </> 
+    <Layout>
+      <div>DashboardPage</div>
+    </Layout>
   )
 }
 

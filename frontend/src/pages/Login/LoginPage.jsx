@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import Layout from '@components/Layout/Layout'
 import { setUser } from '@store/slices/userSlice'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import axios from '@utils/fetch';
 
 function LoginPage() {
@@ -22,16 +23,14 @@ function LoginPage() {
   }
 
   return (
-    <>
-      <div>Login</div>
-      <Link to='/'>На главную</Link>
-
+    <Layout>
       <form onSubmit={handleSubmit}>
         <input onChange={(e) => setUsername(e.target.value)} type="text" />
         <input onChange={(e) => setPassword(e.target.value)} type="text" />
         <button>Отправить</button>
       </form>
-    </>   
+      <Link to='/'>На главную</Link>
+    </Layout>   
   )
 }
 export default LoginPage

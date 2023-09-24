@@ -1,0 +1,51 @@
+.button {
+	@apply relative flex w-fit justify-center items-center cursor-pointer transition
+  py-2 px-3 sm:px-6 rounded-md text-sm sm:text-base
+  bg-black-light text-white-light;
+
+	&:hover:not([disabled]) {
+		@apply bg-slate-dark text-black-light;
+	}
+
+	> .loader {
+		@apply absolute -mt-1 sm:-mt-[2px];
+	}
+}
+.children {
+	@apply flex items-center gap-2.5;
+
+	&__hidden {
+		@apply opacity-0;
+	}
+}
+
+.green {
+	@apply bg-green-dark;
+
+	&:hover:not([disabled]) {
+		@apply bg-green-primary text-white-light;
+	}
+}
+.blue {
+	@apply bg-blue-dark;
+
+	&:hover:not([disabled]) {
+		@apply bg-blue-primary text-white-light;
+	}
+}
+.circle {
+	@apply rounded-full p-3;
+}
+.wide {
+	@apply w-full;
+}
+.large {
+	@apply p-4  max-h-10 sm:max-h-12 text-lg;
+
+	> .loader {
+		@apply -mt-2.5 sm:-mt-[5px];
+	}
+}
+.responsive {
+	@apply w-full sm:w-fit;
+}

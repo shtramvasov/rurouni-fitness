@@ -1,0 +1,9 @@
+.navigation {
+	@apply flex justify-center w-full sm:w-auto transition duration-500
+  p-2.5 sm:py-4 sm:px-4 md:px-6 xl:px-24 gap-12  rounded-full 
+  bg-white-primary;
+
+  &:hover {
+    @apply shadow-sm
+  }
+}
