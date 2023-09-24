@@ -1,0 +1,8 @@
+.wrapper {
+  @apply flex flex-col gap-2
+}
+
+.statistics {
+  @apply grid grid-flow-col 
+  gap-6 grid-rows-4 xl:gap-12 sm:grid-rows-2 xl:grid-rows-1
+}

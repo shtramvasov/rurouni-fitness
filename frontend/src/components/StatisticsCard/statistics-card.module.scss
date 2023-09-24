@@ -1,0 +1,25 @@
+.card {
+	@apply flex flex-col items-center gap-3 py-3 transition duration-500
+  rounded-md shadow-sm
+  bg-white-primary;
+
+	&:hover {
+		@apply shadow-md;
+	}
+}
+
+.image {
+	@apply object-contain w-20 h-20;
+}
+
+.description {
+	@apply flex flex-col items-center text-lg;
+
+	p {
+		@apply font-bold text-xl text-blue-primary;
+	}
+
+	span {
+		@apply text-black-light font-bold;
+	}
+}

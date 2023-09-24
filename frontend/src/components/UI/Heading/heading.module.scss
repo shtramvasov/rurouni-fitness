@@ -1,0 +1,38 @@
+.heading {
+	&.centered {
+		@apply text-center;
+	}
+	&.uppercase {
+		text-transform: uppercase;
+		@apply font-medium;
+	}
+}
+
+h1 {
+	&.uppercase {
+		@apply text-2xl;
+	}
+}
+h2 {
+	&.uppercase {
+		@apply text-lg;
+	}
+}
+h3 {
+	&.uppercase {
+		@apply text-base tracking-tight;
+	}
+}
+
+h1,
+h2 {
+	&.bold {
+		@apply font-bold;
+	}
+}
+
+h3 {
+	&.bold {
+		@apply font-semibold;
+	}
+}
