@@ -1,6 +1,5 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
-function Dashboard() {
+function DashboardPage() {
 
   return (
     <>
@@ -10,4 +9,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default DashboardPage

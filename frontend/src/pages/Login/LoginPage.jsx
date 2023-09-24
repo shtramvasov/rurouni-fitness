@@ -1,10 +1,10 @@
+import { useState } from 'react'
 import { setUser } from '@store/slices/userSlice'
-import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import axios from '@utils/fetch';
 
-function Login() {
+function LoginPage() {
   const dispatch = useDispatch()
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
@@ -34,4 +34,4 @@ function Login() {
     </>   
   )
 }
-export default Login
+export default LoginPage
