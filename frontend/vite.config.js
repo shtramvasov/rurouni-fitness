@@ -15,4 +15,13 @@ export default defineConfig({
 			'@utils': path.resolve(__dirname, './src/utils'),
 		},
 	},
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9090',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 })
