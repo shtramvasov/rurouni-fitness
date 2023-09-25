@@ -17,17 +17,17 @@ router.get('/', connection (async (req, res) => {
 }));
 
 // Детализация упражнения
-router.get('/:id', connection (async (req, res) => {
+router.get('/:exercise_id', connection (async (req, res) => {
   const exercise = await ExercisesController.getOne(res.locals.pg, {
 		user_id: req.user.user_id,
-		exercise_id: req.params.id,
+		exercise_id: req.params.exercise_id,
 	});
   if (!exercise) return res.status(404).json({ error: 'Упражнение не найдено' });
 
   // Ищем историю тренировок для упражнения
   const exercisesHistory = await ExercisesController.getExerciseHistory(res.locals.pg, {
     user_id: req.user.user_id, 
-    exercise_id: req.params.id 
+    exercise_id: req.params.exercise_id 
   });
 
   // Присваиваем значения, если нашли историю тренировок

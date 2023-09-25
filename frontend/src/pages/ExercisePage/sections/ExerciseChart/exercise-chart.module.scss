@@ -1,0 +1,13 @@
+.wrapper {
+	@apply flex flex-col gap-2;
+}
+
+.chart {
+	@apply flex px-2 py-8  transition duration-500
+  rounded-md shadow-sm
+  bg-white-primary;
+
+	&:hover {
+		@apply shadow-md;
+	}
+}

@@ -1,0 +1,49 @@
+.field {
+	@apply relative flex w-fit   
+  mb-1 md:mb-2.5;
+}
+
+.input {
+	@apply flex py-2 px-3 rounded-md text-sm sm:text-base 
+    outline-none shadow-sm transition duration-500
+    bg-white-light w-60 md:w-80;
+
+	&:hover,
+	&:focus {
+		@apply shadow-md;
+	}
+
+	&::placeholder {
+		@apply text-gray-dark;
+	}
+}
+.small {
+	@apply w-24 md:w-36;
+}
+.responsive {
+	@apply w-full;
+}
+.outlined {
+	@apply rounded-none shadow-none 
+  bg-white-primary border-b border-gray-primary;
+
+	&:hover {
+		@apply shadow-none;
+	}
+
+	&:focus {
+		@apply shadow-none;
+	}
+
+	&.secondary {
+		@apply bg-white-light;
+	}
+}
+
+.secondary {
+	@apply bg-white-primary;
+}
+
+.error {
+	@apply absolute -bottom-2.5 left-0 w-full text-sm text-red-primary;
+}

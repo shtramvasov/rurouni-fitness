@@ -1,0 +1,29 @@
+.card {
+	@apply flex flex-col items-center justify-center p-6 gap-0.5 transition duration-500
+  rounded-md shadow-sm 
+  bg-white-primary;
+
+	h1,
+	h2,
+	h3 {
+		@apply transition duration-500;
+	}
+
+	&:hover {
+		@apply shadow-md;
+
+		h1,
+		h2,
+		h3 {
+			@apply text-blue-dark;
+		}
+	}
+
+	span {
+		@apply flex items-center justify-center text-sm text-black-light;
+	}
+}
+
+.icon {
+	@apply text-xl text-blue-dark;
+}

@@ -1,0 +1,17 @@
+.chartTooltip {
+	@apply flex flex-col gap-1.5 py-3.5 px-6 rounded-md shadow-md
+  bg-white-primary border border-slate-light;
+
+	&:active,
+	&:focus {
+		@apply outline-none border-none;
+	}
+
+	p {
+		@apply font-light;
+	}
+
+	span {
+		@apply text-2xl font-bold text-black-light;
+	}
+}
