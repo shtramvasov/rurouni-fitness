@@ -26,12 +26,13 @@ class SessionsController {
   static async getExercises(connection, params) {
     try {
       const exercisesList = await connection.query(`
-        select * from exercise_session es
+        select es.*, e.name from exercise_session es
         join session s on s.session_id = es.session_id
-        where es.exercise_id = $1
+        left join exercise e on e.exercise_id = es.exercise_id
+        where es.session_id = $1
           and s.user_id = $2
-        order by es.created_on_tz desc`,
-        [params.exercise_id, params.user_id]
+        order by es.created_on_tz`,
+        [params.session_id, params.user_id]
       );
 
       return exercisesList.rows;

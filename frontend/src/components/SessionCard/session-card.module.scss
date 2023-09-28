@@ -1,0 +1,22 @@
+.cardSession {
+	@apply flex flex-col  gap-1 py-4 px-10 transition duration-500
+  min-w-full md:min-w-[20rem]
+  rounded-md shadow-sm
+  bg-white-primary;
+
+	&:hover {
+		@apply shadow-md;
+	}
+}
+
+.description {
+	@apply flex pl-[1.5rem] gap-2 text-sm font-thin text-black-light;
+}
+
+.order {
+	@apply font-semibold text-slate-dark;
+}
+
+.weight {
+	@apply font-medium text-black-primary;
+}

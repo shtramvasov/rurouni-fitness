@@ -1,0 +1,29 @@
+.badgeSession {
+	@apply flex flex-col cursor-pointer items-center shrink-0 
+  rounded-2xl p-2.5 md:p-5 shadow-sm transition duration-500 
+  bg-white-primary;
+
+	&:hover {
+		@apply shadow-md;
+
+		b {
+			@apply text-blue-dark;
+		}
+	}
+
+	b {
+		@apply text-black-primary md:text-lg transition duration-500;
+	}
+}
+
+.desc {
+	@apply grid text-sm text-center leading-5 text-black-light;
+}
+
+.badgeActive {
+	@apply border border-blue-light;
+
+	b {
+		@apply text-blue-dark;
+	}
+}

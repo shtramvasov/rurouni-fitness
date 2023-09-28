@@ -43,6 +43,7 @@ module.exports.up = async (connection) => {
             
             create table session (
               session_id serial primary key not null,
+              exercise_id integer not null,
               routine_id integer not null,
               user_id integer not null,
               pass_id integer not null,
@@ -52,7 +53,7 @@ module.exports.up = async (connection) => {
               
               constraint fk_user_exercise_user_id foreign key (user_id) references "user"(user_id),
               constraint fk_user_exercise_uexercise_id foreign key (exercise_id) references exercise(exercise_id),
-              constraint uq_user_exercise unique (user_id, exercise_id)
+              constraint uq_session_user_exercise unique (user_id, exercise_id)
             );
 
             create table user_exercise (

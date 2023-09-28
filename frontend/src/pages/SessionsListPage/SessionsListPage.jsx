@@ -1,9 +1,10 @@
 import Layout from '@components/Layout/Layout'
+import { SessionsList } from './sections'
 
 function SessionsListPage() {
   return (
     <Layout>
-      <div>SessionsListPage</div>
+      <SessionsList />
     </Layout>
   )
 }

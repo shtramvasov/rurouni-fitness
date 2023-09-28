@@ -33,7 +33,7 @@ class ExercisesController {
       const exercisesHistory = await connection.query(`
         select * from exercise_session es
         join session s on es.session_id = s.session_id
-        where exercise_id = $1
+        where es.exercise_id = $1
           and s.user_id = $2
         order by es.created_on_tz desc`,
         [params.exercise_id, params.user_id]

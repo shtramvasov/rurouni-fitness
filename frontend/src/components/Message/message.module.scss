@@ -1,0 +1,7 @@
+.message {
+	@apply flex flex-col gap-4 justify-center;
+}
+
+.image {
+	@apply object-contain h-36 md:h-52;
+}

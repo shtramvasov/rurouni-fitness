@@ -19,9 +19,9 @@ router.get('/', connection (async (req, res) => {
 }));
 
 // Детализация посещения (подгрузка упражнений)
-router.get('/:id', connection (async (req, res) => {
+router.get('/:session_id', connection (async (req, res) => {
   const exercisesList = await SessionsController.getExercises(res.locals.pg, {
-		exercise_id: req.params.id,
+		session_id: req.params.session_id,
 		user_id: req.user.user_id,
 	});
   

@@ -1,0 +1,23 @@
+.sessionsList {
+	@apply flex flex-col gap-6;
+}
+
+.view {
+	@apply flex flex-wrap justify-center gap-5 sm:pt-8 lg:pt-16 rounded-md;
+}
+
+.list {
+	scrollbar-width: thin;
+	@apply flex p-3.5 gap-4 mb-8 transition duration-500 overflow-x-scroll;
+
+	&::-webkit-scrollbar {
+		@apply h-[5px];
+	}
+
+	&::-webkit-scrollbar-track {
+		@apply bg-slate-primary;
+	}
+	&::-webkit-scrollbar-thumb {
+		@apply bg-gray-dark border rounded-[20px];
+	}
+}
