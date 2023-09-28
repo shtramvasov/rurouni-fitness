@@ -1,0 +1,21 @@
+.cardRoutine {
+	@apply flex flex-col gap-2.5 pt-3.5 p-6 transition duration-500
+  rounded-md shadow-sm
+  bg-white-primary;
+
+	&:hover {
+		@apply shadow-md;
+	}
+}
+
+.list {
+	@apply grid gap-2 sm:grid-cols-2;
+
+	li {
+		@apply underline underline-offset-[6px] text-blue-dark transition;
+
+		&:hover {
+			@apply text-blue-light no-underline;
+		}
+	}
+}

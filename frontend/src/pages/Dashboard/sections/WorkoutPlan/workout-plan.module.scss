@@ -1,0 +1,8 @@
+.workoutPlan {
+	@apply flex flex-col gap-2;
+}
+
+.container {
+	@apply grid gap-6
+  grid-rows-1 lg:grid-cols-3;
+}
