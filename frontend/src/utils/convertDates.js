@@ -4,9 +4,8 @@ import 'dayjs/locale/ru';
 export const currentYear = new Date().getFullYear()
 
 export const timestampToDate = (date) => {
-	return dayjs(date?.toDate()).format('YYYY-MM-DD')
+	return dayjs(date).format('YYYY-MM-DD')
 }
-
 
 export const localeDate = (date) => {
 	if (typeof date === 'string') {

@@ -1,5 +1,5 @@
 import { AiOutlineUser, AiOutlineUnorderedList } from 'react-icons/ai'
-import { HiOutlineClipboardList } from 'react-icons/hi'
+import { HiOutlineClipboardList, HiOutlineIdentification } from 'react-icons/hi'
 
 export const NavigationData = [
   {
@@ -16,5 +16,10 @@ export const NavigationData = [
 		title: 'Календарь',
 		link: '/sessions',
 		icon: HiOutlineClipboardList,
+	},
+	{
+		title: 'Абонемент',
+		link: '/pass',
+		icon: HiOutlineIdentification,
 	},
 ]

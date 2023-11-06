@@ -1,5 +1,5 @@
 .link {
-	@apply flex items-center text-black-light font-medium transition py-2 px-4 sm:px-8 md:rounded-b-3xl rounded-md;
+	@apply flex items-center text-black-light font-medium transition py-2 px-4 md:px-6 md:rounded-b-3xl rounded-md;
 
 	&:hover {
 		@apply bg-slate-light;

@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 // Получить список программ тренировок
 router.get('/', connection (async (req, res) => {
   const routinesList = await RoutinesController.getAll(res.locals.pg);
-  if (!routinesList.length) return res.status(404).json({ error: 'Тренировочных программ не найдено' });
+  if (!routinesList.length) return res.status(404).json({ message: 'Тренировочных программ не найдено' });
   
   res.json(routinesList);
 }));
@@ -19,7 +19,7 @@ router.get('/', connection (async (req, res) => {
 // Получить список активных программ тренировок
 router.get('/active', connection (async (req, res) => {
   const activeRoutinesList = await RoutinesController.getAllActive(res.locals.pg, { user_id: req.user.user_id });
-  if (!activeRoutinesList.length) return res.status(404).json({ error: 'Активных тренировочных программ не найдено' });
+  if (!activeRoutinesList.length) return res.status(404).json({ message: 'Активных тренировочных программ не найдено' });
   
   res.json(activeRoutinesList);
 }));
@@ -27,7 +27,7 @@ router.get('/active', connection (async (req, res) => {
 // Детализация программы тренировок
 router.get('/:id', connection (async (req, res) => {
   const routine = await RoutinesController.getOne(res.locals.pg, { routine_id: req.params.id });
-  if (!routine) return res.status(404).json({ error: 'Тренировочной программы не найдено' });
+  if (!routine) return res.status(404).json({ message: 'Тренировочной программы не найдено' });
   
   res.json(routine);
 }));
@@ -38,7 +38,7 @@ router.post('/', transaction (async (req, res) => {
   const { name, exercises } = req.body;
 
   // Валидации
-  if (!name) return res.status(400).json({ error: 'Не передано название тренировки' })
+  if (!name) return res.status(400).json({ message: 'Не передано название тренировки' })
 
   // Записывает программу тренировок 
   const routine = await RoutinesController.postRoutine(pg, { name });
@@ -64,7 +64,7 @@ router.put('/:id', transaction (async (req, res) => {
   const { id: routine_id } = req.params;
 
   // Валидации
-  if (!exercises || !exercises.length) return res.status(400).json({ error: 'Не переданы упражнения' })
+  if (!exercises || !exercises.length) return res.status(400).json({ message: 'Не переданы упражнения' })
 
   // Проверяем, если ли у пользователя эта программа тренировок
   const isAllowed = await RoutinesController.getRoutineByUser(pg, { 
@@ -72,7 +72,7 @@ router.put('/:id', transaction (async (req, res) => {
     routine_id
    });
 
-  if(!isAllowed) return res.status(401).json({ error: 'Отказано в доступе' })
+  if(!isAllowed) return res.status(401).json({ message: 'Отказано в доступе' })
 
   // Добавляем упражнения
   for (let exercise of exercises ) {

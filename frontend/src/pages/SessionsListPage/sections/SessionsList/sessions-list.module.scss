@@ -21,3 +21,8 @@
 		@apply bg-gray-dark border rounded-[20px];
 	}
 }
+
+.alert {
+  @apply bg-yellow-light inline-flex items-center gap-3 border bg-opacity-20 border-yellow-primary 
+  p-6 rounded-md text-gray-dark font-medium
+}

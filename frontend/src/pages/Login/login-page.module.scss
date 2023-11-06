@@ -1,0 +1,15 @@
+.wrapper {
+  @apply flex justify-center min-h-screen items-center
+}
+
+.container {
+  @apply flex flex-col gap-4 md:gap-6 text-center w-full md:w-auto p-8
+}
+
+.heading {
+  @apply flex justify-center mb-3 md:mb-6
+}
+
+.form {
+  @apply flex flex-col p-8 bg-white-primary rounded-lg gap-6 items-center w-full md:w-[34rem] transition duration-500 shadow-sm hover:shadow-md
+}

@@ -15,7 +15,7 @@ function SessionBadge({ session, handler, active, setActive }) {
 			}}
 		>
 			<b>{session.name}</b>
-			<p className={styles.desc}>{localeDate(session.date)}</p>
+			<p className={styles.desc}>{localeDate(session.created_on_tz)}</p>
 		</li>
   )
 }

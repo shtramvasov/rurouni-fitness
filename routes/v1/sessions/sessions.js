@@ -25,7 +25,7 @@ router.get('/:session_id', connection (async (req, res) => {
 		user_id: req.user.user_id,
 	});
   
-  if(!exercisesList.length) return res.status(404).json({ error: 'Список упражнений не найден' });
+  if(!exercisesList.length) return res.status(404).json({ message: 'Список упражнений не найден' });
 
   res.json(exercisesList)
 }));
@@ -36,12 +36,12 @@ router.post('/', transaction (async (req, res) => {
   const { routine_id, date, category, burned_calories, exercises } = req.body
   
   // Валидации
-  if (!routine_id) return res.status(400).json({ error: 'Не передана тренировка' })
-  if (!date) return res.status(400).json({ error: 'Не передана дата' })
-  if (!category) return res.status(400).json({ error: 'Не передана категория тренировки' })
+  if (!routine_id) return res.status(400).json({ message: 'Не передана тренировка' })
+  if (!date) return res.status(400).json({ message: 'Не передана дата' })
+  if (!category) return res.status(400).json({ message: 'Не передана категория тренировки' })
 
   const passId = await PassController.getActiveId(pg);
-  if(!passId) return res.status(400).json({ error: 'Нет действующего пропуска' })
+  if(!passId) return res.status(400).json({ message: 'Нет действующего пропуска' })
 
   // Записываем посещение
   const sessionId = await SessionsController.postSession(pg, {
@@ -52,7 +52,7 @@ router.post('/', transaction (async (req, res) => {
     date,
     burned_calories,
   });
-  if (!sessionId) res.status(404).json({ error: 'Ошибка сохранения записи' });
+  if (!sessionId) res.status(404).json({ message: 'Ошибка сохранения записи' });
 
   // Считаем количество посещений по пропуску
   const usedSessions = await SessionsController.getSessionCount(pg, { pass_id: passId.pass_id });

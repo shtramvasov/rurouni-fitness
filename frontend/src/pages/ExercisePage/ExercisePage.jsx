@@ -13,7 +13,7 @@ function ExercisePage() {
   return (
     <Layout>
       <Statistics data={data} />
-      <ExerciseChart  data={exercise?.history} name={exercise?.name} />
+      <ExerciseChart data={exercise?.history} name={exercise?.name} />
     </Layout>
   )
 }

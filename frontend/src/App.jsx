@@ -1,18 +1,33 @@
+import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import { checkAuth } from "@store/slices/userSlice";
 import '@assets/styles/globals.scss'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   const dispatch = useDispatch();
-  const { isLoaded } = useSelector(state => state.userSlice)
+  const { isLoaded, isAuth } = useSelector(state => state.userSlice);
 
-  if(!isLoaded) dispatch(checkAuth());
+  useEffect(() => {
+    if(!isAuth && router.state.location.pathname !== '/login') {
+      dispatch(checkAuth())
+    }
+  }, [isAuth])
 
   return (
     <>
-     {isLoaded && (<RouterProvider router={router} />)}
+    {(isLoaded || router.state.location.pathname === '/login') && <RouterProvider router={router} />}
+    <ToastContainer 
+      autoClose={1500}
+      position='bottom-center'
+      hideProgressBar
+      newestOnTop
+      theme='colored'
+      pauseOnFocusLoss={false}
+    />
     </>
   )
 }

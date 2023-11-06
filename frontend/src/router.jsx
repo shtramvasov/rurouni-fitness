@@ -5,6 +5,7 @@ import LoginPage from "@pages/Login/LoginPage";
 import ExercisesListPage from "@pages/ExercisesList/ExercisesListPage";
 import ExercisePage from "@pages/ExercisePage/ExercisePage";
 import SessionsListPage from "@pages/SessionsListPage/SessionsListPage";
+import PassPage from '@pages/Pass/PassPage';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: '/sessions',
         element: <SessionsListPage />
+      },
+      {
+        path: '/pass',
+        element: <PassPage />
       },
       {
         path: '/*',

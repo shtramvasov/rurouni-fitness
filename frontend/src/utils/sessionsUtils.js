@@ -1,3 +1,5 @@
+import { timestampToDate } from "./convertDates"
+
 export const reduceTrainings = (array, category) => {
 	if (array != undefined) {
 		const result = array.reduce(
@@ -28,4 +30,15 @@ export const calculateCalories = (exercise,perRep) => {
 	return Math.ceil(
 		exercise.reps * perRep * exercise.sets + exercise.weight * 0.15,
 	)
+}
+
+export const mapCalendarValues = (sessions) => {
+	return sessions.map(session => {
+		return {
+			day: timestampToDate(session.created_on_tz),
+			value: session.category,
+			name: session.name,
+			calories: session.burned_calories,
+		}
+	})
 }

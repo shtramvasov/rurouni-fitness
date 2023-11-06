@@ -1,0 +1,9 @@
+.calendar {
+	@apply hidden sm:flex h-32 sm:h-52 transition duration-500
+  shadow-sm rounded-lg lg:py-5
+ bg-white-primary;
+
+	&:hover {
+		@apply shadow-md;
+	}
+}

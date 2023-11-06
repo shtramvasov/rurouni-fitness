@@ -1,3 +1,4 @@
+import CalendarHeatmap from "./CalendarHeatmap/CalendarHeatmap";
 import WorkoutPlan from "./WorkoutPlan/WorkoutPlan";
 
-export { WorkoutPlan }
+export { CalendarHeatmap, WorkoutPlan }

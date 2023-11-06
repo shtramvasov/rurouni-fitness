@@ -32,7 +32,7 @@
 	}
 
 	&:focus {
-		@apply shadow-none;
+		@apply shadow-none border-blue-light;
 	}
 
 	&.secondary {
@@ -45,5 +45,5 @@
 }
 
 .error {
-	@apply absolute -bottom-2.5 left-0 w-full text-sm text-red-primary;
+	@apply absolute -bottom-[1.5rem] left-0 text-left w-full text-sm text-red-primary;
 }

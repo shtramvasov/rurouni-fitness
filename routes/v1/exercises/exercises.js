@@ -22,7 +22,7 @@ router.get('/:exercise_id', connection (async (req, res) => {
 		user_id: req.user.user_id,
 		exercise_id: req.params.exercise_id,
 	});
-  if (!exercise) return res.status(404).json({ error: 'Упражнение не найдено' });
+  if (!exercise) return res.status(404).json({ message: 'Упражнение не найдено' });
 
   // Ищем историю тренировок для упражнения
   const exercisesHistory = await ExercisesController.getExerciseHistory(res.locals.pg, {

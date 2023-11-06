@@ -11,7 +11,8 @@
 			"@hooks/*": ["hooks/*"],
 			"@interfaces/*": ["interfaces/*"],
 			"@store/*": ["store/*"],
-			"@utils/*": ["utils/*"]
+			"@utils/*": ["utils/*"],
+      "@constants/*": ["constants/*"]
 		}
   },
   "include": ["src"],

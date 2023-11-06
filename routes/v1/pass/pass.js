@@ -12,7 +12,7 @@ router.use((req, res, next) => {
 router.get('/', connection (async (req, res) => {
   const passList = await PassController.getAll(res.locals.pg, { user_id: req.user.user_id });
 
-  if(!passList.length) return res.status(404).json({ error: 'Пропуска не найдены' })
+  if(!passList.length) return res.status(404).json({ message: 'Пропуска не найдены' })
 
   res.json(passList)
 }));
@@ -20,7 +20,7 @@ router.get('/', connection (async (req, res) => {
 // Получить информацию о текущем пропуске
 router.get('/active', connection (async (req, res) => {
   const pass = await PassController.getOne(res.locals.pg, { user_id: req.user.user_id });
-  if (!pass) return res.status(404).json({ error: 'Активный пропуск не найден' })
+  if (!pass) return res.status(404).json({ message: 'Активный пропуск не найден' })
 
   res.json(pass)
 }));
@@ -29,11 +29,11 @@ router.get('/active', connection (async (req, res) => {
 router.post('/purchase', transaction (async (req, res) => {
   const { amount } = req.body;
 
-  if (!amount) return res.status(401).json({ error: 'Не передана плата за пропуск' })
+  if (!amount) return res.status(401).json({ message: 'Не передана плата за пропуск' })
 
   // Проверяем наличие активного пропуска
   const hasActivePass = await PassController.getOne(res.locals.pg, { user_id: req.user.user_id });
-  if(!!hasActivePass) return res.status(401).json({ error: 'Уже имеется активный пропуск' });
+  if(!!hasActivePass) return res.status(401).json({ message: 'Уже имеется активный пропуск' });
 
   const pass = await PassController.purchasePass(res.locals.pg, { amount, user_id: req.user.user_id });
 
@@ -48,7 +48,7 @@ router.post('/close', transaction (async (req, res) => {
   if(!!hasActivePass) { 
     await PassController.closePass(res.locals.pg, { user_id: req.user.user_id });
    } else {
-     return res.status(401).json({ error: 'Нет активного пропуска на данный момент' });
+     return res.status(404).json({ message: 'Нет активного пропуска на данный момент' });
    };
 
   res.json({ message: true})

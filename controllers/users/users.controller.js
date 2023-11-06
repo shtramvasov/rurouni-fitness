@@ -16,8 +16,8 @@ class UsersController {
   static async postUser(connection, params) {
     try {
       const user = await connection.query(`
-        insert into "user" (username, password, created_on_tz)values ($1, $2, now())
-        returning user_id, created_on_tz`,
+        insert into "user" (username, password, created_on_tz) values ($1, $2, now())
+        returning user_id, username`,
         [params.username, params.password]
       );
 

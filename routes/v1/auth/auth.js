@@ -18,12 +18,11 @@ router.post('/login', (req, res, next) => {
 
   passport.authenticate('local', (err, user) => {
     if (err) return next(err);    
-    if (!user) return res.status(401).json({ message: 'Неверный логин или пароль' });
+    if (!user) return res.status(401).json({ error: 'Неверный логин или пароль' });
 
     req.login(user, (err) => {
       if (err) return next(err);
       return res.json({
-				message: 'Логин прошел успешно',
 				user: { user_id: req.user.user_id, username: req.user.username },
 				isAuth: true,
 			});
@@ -34,12 +33,12 @@ router.post('/login', (req, res, next) => {
 router.post('/register', transaction (async (req, res) => {
   const { username, password } = req.body;
 
-  if (!username) return res.status(404).json({message: 'Не передан юзернейм'});
-  if (!password) return res.status(404).json({message: 'Не передан пароль'});
+  if (!username) return res.status(404).json({error: 'Не передан юзернейм'});
+  if (!password) return res.status(404).json({error: 'Не передан пароль'});
 
   const hasRegistered = await UsersController.getOne(res.locals.pg, { username });
 
-  if(hasRegistered) res.status(400).json({message: 'Такой пользователь уже существует'});
+  if(hasRegistered) res.status(400).json({error: 'Такой пользователь уже существует'});
   
   const passwordHash = await bcript.hash(password, 10);
 
@@ -49,8 +48,8 @@ router.post('/register', transaction (async (req, res) => {
   });
 
   res.json({
-		message: true,
-		user: { user_id: user.user_id, registration_date: user.created_on_tz },
+    isAuth: true,
+		user: { user_id: user.user_id, username: user.username },
 	});
 }));
 
